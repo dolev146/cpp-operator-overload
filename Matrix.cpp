@@ -2,44 +2,44 @@
 namespace zich
 {
 
-    Matrix::Matrix(const vector<double> &dataTemp, const int rowTemp, const int colTemp)
+    Matrix::Matrix(const vector<double> &vec, const int row, const int column)
     {
-        if (rowTemp <= 0 || colTemp <= 0)
+        if (row <= 0 || column <= 0)
         {
             throw runtime_error("The size must be positive");
         }
-        if (rowTemp * colTemp != dataTemp.size())
+        if (row * column != vec.size())
         {
             throw runtime_error("The size must match the size of the vector inserter");
         }
 
-        this->data = dataTemp;
-        row = rowTemp;
-        col = colTemp;
+        this->vec = vec;
+        this->row = row;
+        this->column = column;
     }
     Matrix Matrix::operator+(const Matrix &matrix)
     {
-        if (this->row != matrix.row || this->col != matrix.col)
+        if (this->row != matrix.row || this->column != matrix.column)
         {
             throw runtime_error("The matrices should be the same size");
         }
 
-        unsigned int length = (unsigned int)(row * col);
+        unsigned int length = (unsigned int)(row * column);
         vector<double> dataTemp;
         dataTemp.resize(length);
         for (unsigned int i = 0; i < length; i++)
         {
-            dataTemp[i] = this->data[i] + matrix.data[i];
+            dataTemp[i] = this->vec[i] + matrix.vec[i];
         }
-        return Matrix(dataTemp, row, col);
+        return Matrix(dataTemp, row, this->column);
     }
     Matrix &Matrix::operator++()
     {
         for (int i = 0; i < row; i++)
         {
-            for (int j = 0; j < col; j++)
+            for (int j = 0; j < column; j++)
             {
-                data[(unsigned int)(i * col + j)] += 1;
+                vec[(unsigned int)(i * column + j)] += 1;
             }
         }
         return *this;
@@ -49,24 +49,24 @@ namespace zich
         Matrix copy = *this;
         for (int i = 0; i < row; i++)
         {
-            for (int j = 0; j < col; j++)
+            for (int j = 0; j < column; j++)
             {
-                data[(unsigned int)(i * col + j)] += 1;
+                vec[(unsigned int)(i * column + j)] += 1;
             }
         }
         return copy;
     }
     Matrix &Matrix::operator+=(const Matrix &matrix)
     {
-        if (this->row != matrix.row || this->col != matrix.col)
+        if (this->row != matrix.row || this->column != matrix.column)
         {
             throw runtime_error("The matrices should be the same size");
         }
         for (int i = 0; i < row; i++)
         {
-            for (int j = 0; j < col; j++)
+            for (int j = 0; j < column; j++)
             {
-                data[(unsigned int)(i * col + j)] += matrix.data[(unsigned int)(i * col + j)];
+                vec[(unsigned int)(i * column + j)] += matrix.vec[(unsigned int)(i * column + j)];
             }
         }
         return *this;
@@ -74,26 +74,26 @@ namespace zich
 
     Matrix Matrix::operator-(const Matrix &matrix)
     {
-        if (this->row != matrix.row || this->col != matrix.col)
+        if (this->row != matrix.row || this->column != matrix.column)
         {
             throw runtime_error("The matrices should be the same size");
         }
-        unsigned int length = (unsigned int)(row * col);
+        unsigned int length = (unsigned int)(row * column);
         vector<double> dataTemp;
         dataTemp.resize(length);
         for (unsigned int i = 0; i < length; i++)
         {
-            dataTemp[i] = this->data[i] - matrix.data[i];
+            dataTemp[i] = this->vec[i] - matrix.vec[i];
         }
-        return Matrix(dataTemp, row, col);
+        return Matrix(dataTemp, row, column);
     }
     Matrix &Matrix::operator--()
     {
         for (int i = 0; i < row; i++)
         {
-            for (int j = 0; j < col; j++)
+            for (int j = 0; j < column; j++)
             {
-                data[(unsigned int)(i * col + j)] -= 1;
+                vec[(unsigned int)(i * column + j)] -= 1;
             }
         }
         return *this;
@@ -103,24 +103,24 @@ namespace zich
         Matrix copy = *this;
         for (int i = 0; i < row; i++)
         {
-            for (int j = 0; j < col; j++)
+            for (int j = 0; j < column; j++)
             {
-                data[(unsigned int)(i * col + j)] -= 1;
+                vec[(unsigned int)(i * column + j)] -= 1;
             }
         }
         return copy;
     }
     Matrix &Matrix::operator-=(const Matrix &matrix)
     {
-        if (this->row != matrix.row || this->col != matrix.col)
+        if (this->row != matrix.row || this->column != matrix.column)
         {
             throw runtime_error("The matrices should be the same size");
         }
         for (int i = 0; i < row; i++)
         {
-            for (int j = 0; j < col; j++)
+            for (int j = 0; j < column; j++)
             {
-                data[(unsigned int)(i * col + j)] -= matrix.data[(unsigned int)(i * col + j)];
+                vec[(unsigned int)(i * column + j)] -= matrix.vec[(unsigned int)(i * column + j)];
             }
         }
         return *this;
@@ -129,25 +129,25 @@ namespace zich
     double Matrix::multiplication(const int thisRow, const Matrix &matrix, const int thisCol)
     {
         double sum = 0;
-        for (int i = 0; i < this->col; i++)
+        for (int i = 0; i < this->column; i++)
         {
-            sum += this->data[(unsigned int)(this->col * thisRow + i)] * matrix.data[(unsigned int)(matrix.col * i + thisCol)];
+            sum += this->vec[(unsigned int)(this->column * thisRow + i)] * matrix.vec[(unsigned int)(matrix.column * i + thisCol)];
         }
         return sum;
     }
     Matrix Matrix::operator*(const Matrix &matrix)
     {
-        if (this->col != matrix.row)
+        if (this->column != matrix.row)
         {
             throw runtime_error("The sizes of the matrices do not match");
         }
         vector<double> n;
-        Matrix newMatrix(n, row, matrix.col);
+        Matrix newMatrix(n, row, matrix.column);
         for (int i = 0; i < newMatrix.row; i++)
         {
-            for (int j = 0; j < newMatrix.col; j++)
+            for (int j = 0; j < newMatrix.column; j++)
             {
-                newMatrix.data[(unsigned int)(i * newMatrix.col + j)] = multiplication(i, matrix, j);
+                newMatrix.vec[(unsigned int)(i * newMatrix.column + j)] = multiplication(i, matrix, j);
             }
         }
         return newMatrix;
@@ -157,9 +157,9 @@ namespace zich
         Matrix newMatrix = *this;
         for (unsigned int i = 0; i < row; i++)
         {
-            for (unsigned int j = 0; j < col; j++)
+            for (unsigned int j = 0; j < column; j++)
             {
-                newMatrix.data[(unsigned int)(col)*i + j] *= a;
+                newMatrix.vec[(unsigned int)(column)*i + j] *= a;
             }
         }
         return newMatrix;
@@ -179,9 +179,9 @@ namespace zich
         double sum = 0;
         for (int i = 0; i < this->row; i++)
         {
-            for (int j = 0; j < this->col; j++)
+            for (int j = 0; j < this->column; j++)
             {
-                sum += data[(unsigned int)(i * (this->col) + j)];
+                sum += vec[(unsigned int)(i * (this->column) + j)];
             }
         }
         return sum;
@@ -196,14 +196,14 @@ namespace zich
     }
     bool Matrix::operator!=(const Matrix &matrix)
     {
-        if (this->row != matrix.row || this->col != matrix.col)
+        if (this->row != matrix.row || this->column != matrix.column)
         {
             return false;
         }
-        unsigned int size = (unsigned int)(row * col);
+        unsigned int size = (unsigned int)(row * column);
         for (unsigned int i = 0; i < size; i++)
         {
-            if (this->data[i] != matrix.data[i])
+            if (this->vec[i] != matrix.vec[i])
             {
                 return true;
             }
@@ -228,9 +228,9 @@ namespace zich
         for (int i = 0; i < matrix.row; i++)
         {
             COUT << '[';
-            for (int j = 0; j < matrix.col; j++)
+            for (int j = 0; j < matrix.column; j++)
             {
-                COUT << matrix.data[(unsigned int)(matrix.col * i + j)] << " ";
+                COUT << matrix.vec[(unsigned int)(matrix.column * i + j)] << " ";
             }
             COUT << "]" << endl;
         }

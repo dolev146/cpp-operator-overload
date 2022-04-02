@@ -7,14 +7,14 @@ namespace zich
     class Matrix
     {
     private:
-        vector<double> data;
+        vector<double> vec;
         int row;
-        int col;
+        int column;
         double multiplication(const int, const Matrix &matrix, const int);
         double sumMat() const;
 
     public:
-        Matrix(const vector<double> &dataTemp, const int rowTemp, const int colTemp);
+        Matrix(const vector<double> &vec, const int row, const int column);
         Matrix operator+(const Matrix &matrix);
         Matrix operator+(const double);
         Matrix operator+(const int);
