@@ -14,7 +14,7 @@ namespace zich
         double sumMat() const;
 
     public:
-        Matrix(const vector<double> &vec, const int, const int);
+        Matrix(const vector<double> dataTemp, const int rowTemp, const int colTemp);
         Matrix operator+(const Matrix &matrix);
         Matrix operator+(const double);
         Matrix operator+(const int);
@@ -44,6 +44,7 @@ namespace zich
         friend ostream &operator<<(ostream &COUT, const Matrix &matrix);
         friend Matrix operator*(const double, Matrix &matrix);
         friend Matrix operator-(Matrix &matrix);
+        friend bool operator==(Matrix &matrix1, Matrix &matrix2);
     };
 
 };

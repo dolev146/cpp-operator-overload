@@ -2,14 +2,18 @@
 namespace zich
 {
 
-    Matrix::Matrix(const vector<double> &vec, const int rowTemp, const int colTemp)
+    Matrix::Matrix(const vector<double> dataTemp, const int rowTemp, const int colTemp)
     {
         if (rowTemp <= 0 || colTemp <= 0)
         {
             throw runtime_error("The size must be positive");
         }
+        if (rowTemp * colTemp != dataTemp.size())
+        {
+            throw runtime_error("The size must match the size of the vector inserter");
+        }
 
-        this->data = std::vec;
+        this->data = dataTemp;
         row = rowTemp;
         col = colTemp;
     }
@@ -121,7 +125,7 @@ namespace zich
         }
         return *this;
     }
-    
+
     double Matrix::multiplication(const int thisRow, const Matrix &matrix, const int thisCol)
     {
         double sum = 0;
@@ -241,5 +245,25 @@ namespace zich
     {
         return matrix *= -1;
     }
+    Matrix Matrix::operator-(const double number)
+    {
+        return *this;
+    };
+    Matrix Matrix::operator-(const int number)
+    {
+        return *this;
+    };
+    Matrix Matrix::operator+(const double number)
+    {
+        return *this;
+    };
+    Matrix Matrix::operator+(const int number)
+    {
+        return *this;
+    };
+
+    bool operator==(Matrix &matrix1, Matrix &matrix2){
+        return true;
+    };
 
 }
