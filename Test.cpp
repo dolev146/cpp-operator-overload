@@ -97,10 +97,10 @@ TEST_CASE("check * operator matrices")
     std::vector<double> identity3 = {3, 0, 0, 0, 3, 0, 0, 0, 3};
     Matrix mat3(identity3, 3, 3);
     Matrix mat6(identity3, 3, 3);
-     
+    mat6 = mat2 * mat3;
     std::vector<double> identity6 = {6, 0, 0, 0, 6, 0, 0, 0, 6};
     Matrix check_mat6(identity6, 3, 3);
-    // CHECK((mat2 * mat3 == check_mat6));
+    CHECK((mat2 * mat3 == check_mat6));
 }
 
 TEST_CASE("- operator for integer")
@@ -184,16 +184,16 @@ TEST_CASE("// check * operator matrices that is not defined")
 
 TEST_CASE("// check * operator matrices for differant row numbers")
 {
-    // // check * operator matrices for differant row numbers
-    // std::vector<double> vec2 = {2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0};
-    // Matrix mat2(vec2, 4, 3);
-    // std::vector<double> vec3 = {3, 0, 0, 0, 3, 0, 0, 0, 3};
-    // Matrix mat3(vec3, 3, 3);
-    // Matrix mat6(vec3, 3, 3);
-    // mat6 = mat2 * mat3;
-    // std::vector<double> vec6 = {6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0};
-    // Matrix check_mat6(vec6, 4, 3);
-    // CHECK((mat6 == check_mat6));
+    // check * operator matrices for differant row numbers
+    std::vector<double> vec2 = {2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0};
+    Matrix mat2(vec2, 4, 3);
+    std::vector<double> vec3 = {3, 0, 0, 0, 3, 0, 0, 0, 3};
+    Matrix mat3(vec3, 3, 3);
+    Matrix mat6(vec3, 3, 3);
+    mat6 = mat2 * mat3;
+    std::vector<double> vec6 = {6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0};
+    Matrix check_mat6(vec6, 4, 3);
+    CHECK((mat6 == check_mat6));
 }
 TEST_CASE("// check + operator matrices that is not same size")
 {

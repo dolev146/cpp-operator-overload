@@ -2,7 +2,7 @@
 namespace zich
 {
 
-    Matrix::Matrix(const vector<double> dataTemp, const int rowTemp, const int colTemp)
+    Matrix::Matrix(const vector<double> &dataTemp, const int rowTemp, const int colTemp)
     {
         if (rowTemp <= 0 || colTemp <= 0)
         {
@@ -265,5 +265,9 @@ namespace zich
     bool operator==(Matrix &matrix1, Matrix &matrix2){
         return true;
     };
+
+    Matrix operator*(const Matrix &matrix1,const Matrix &matrix2){
+        return matrix1;
+    }
 
 }
